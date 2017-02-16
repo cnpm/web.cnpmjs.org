@@ -1,6 +1,7 @@
 {
   "extends": "egg",
   "rules": {
+    "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ]
   },
   "globals": {
     "app": true,

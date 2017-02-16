@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= locals.title %></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="shortcut icon" href="/favicon.png">
+    <!-- Ant design -->
+    <link href="/public/css/antd-0.9.1.min.css" rel="stylesheet" media="screen">
+    <link href="/public/css/main.css" rel="stylesheet" media="screen">
+    <link href="/public/css/yue.css" rel="stylesheet" media="screen">
+    <link href="/public/css/github.css" rel="stylesheet" media="screen">
+    <link href="/public/css/github-markdown.css" rel="stylesheet" media="screen">
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="//dn-staticfile.qbox.me/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="CNPM" />
+    <script>
+      $(function () {
+        $('#search-input').keypress(function (e) {
+          if(e.keyCode !== 13) {
+            return;
+          }
+          var val = $(this).val().trim();
+          if (val) {
+            return location.href = '/browse/keyword/' + val;
+          }
+        });
+
+        $(".nav-tabs li").each(function (index) {
+          $(this).data("index", index);
+        })
+        .on("click", function (e) {
+          e.preventDefault();
+          $(".nav-tabs li.active,.nav-cont.active").removeClass("active");
+          $(this).addClass("active");
+          $(".nav-cont").eq($(this).data("index")).addClass("active");
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <header id="header">
+        <div class="logo">
+          <a href="/"><img src="<%= logoUrl %>"></a>
+          <%= adBanner %>
+        </div>
+        <input type="text" id="search-input" class="ant-input ant-input-lg" placeholder="Search Packages">
+      </header>
+
+      <div class="yue">
