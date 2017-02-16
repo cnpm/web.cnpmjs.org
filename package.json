@@ -1,0 +1,41 @@
+{
+  "name": "web.cnpmjs.org",
+  "version": "1.0.0",
+  "description": "Web server for cnpmjs.org",
+  "private": true,
+  "dependencies": {
+    "egg": "^0.12.0"
+  },
+  "devDependencies": {
+    "autod": "^2.7.1",
+    "egg-bin": "^2.0.2",
+    "egg-ci": "^1.1.0",
+    "egg-mock": "^2.1.0",
+    "eslint": "^3.13.1",
+    "eslint-config-egg": "^3.2.0",
+    "supertest": "^2.0.1",
+    "webstorm-disable-index": "^1.1.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "egg-bin dev",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod"
+  },
+  "ci": {
+    "version": "6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cnpm/web.cnpmjs.org.git"
+  },
+  "author": "popomore <sakura9515@gmail.com>",
+  "license": "MIT"
+}
