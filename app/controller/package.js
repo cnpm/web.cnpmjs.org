@@ -91,10 +91,7 @@ module.exports = app => class PackageController extends app.Controller {
     pkg.dependents = [];
     yield ctx.render('package.ejs', {
       package: pkg,
-      config: {},
       download: {},
-      logoUrl: '',
-      adBanner: '',
     });
   }
 
