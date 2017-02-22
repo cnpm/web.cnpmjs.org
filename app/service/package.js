@@ -8,7 +8,9 @@ module.exports = app => class PackageService extends app.Service {
     assert(name, 'name is required');
     assert(tag, 'tag is required');
     const res = yield this.request(`/${name}/${tag}`);
-    console.log(res);
+    if (res.status === 404) {
+      return null;
+    }
     return res.data;
   }
 

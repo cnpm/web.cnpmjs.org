@@ -8,4 +8,8 @@ module.exports = {
     logoURL: 'https://os.alipayobjects.com/rmsportal/oygxuIUkkrRccUz.jpg', // cnpm logo image url
     adBanner: '',
   },
+
+  notfound: {
+    pageUrl: '/404',
+  },
 };

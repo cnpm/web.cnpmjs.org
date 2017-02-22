@@ -8,75 +8,65 @@ describe('test/controllers/web/package/show.test.js', () => {
   afterEach(mm.restore);
 
   describe('GET /package/:name', () => {
-    it.only('should get 200', done => {
-      request(app.callback())
-      .get('/package/urllib')
-      .expect(200)
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/testmodule-web-show/)
-      .expect(/Maintainers/)
-      .expect(/Dependencies/)
-      .expect(/Downloads/, (err, res) => {
-        assert.ifError(err);
-        res.should.have.header('etag');
-        res.text.should.containEql('<meta charset="utf-8">');
-        done();
-      });
+    it('should get 200', () => {
+      return request(app.callback())
+        .get('/package/urllib')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/urllib/)
+        .expect(/Maintainers/)
+        .expect(/Dependencies/)
+        .expect(/Downloads/);
     });
 
-    it('should get scoped package', done => {
-      request(app.callback())
-      .get('/package/@typed/core')
-      .expect(200)
-      .expect('content-type', 'text/html; charset=utf-8')
-      .expect(/testmodule-web-show/)
-      .expect(/Maintainers/)
-      .expect(/Dependencies/)
-      .expect(/Downloads/, (err, res) => {
-        assert.ifError(err);
-        res.should.have.header('etag');
-        res.text.should.containEql('<meta charset="utf-8">');
-        done();
-      });
+    it('should get scoped package', () => {
+      return request(app.callback())
+        .get('/package/@typed/core')
+        .expect(200)
+        .expect('content-type', 'text/html; charset=utf-8')
+        .expect(/@typed\/core/)
+        .expect(/Maintainers/)
+        .expect(/Dependencies/)
+        .expect(/Downloads/);
     });
 
-    it('should get 404', done => {
-      request(app)
-      .get('/package/noexist')
-      .expect(404, done);
+    it('should get 404', () => {
+      return request(app.callback())
+        .get('/package/noexist')
+        .expect(404);
     });
   });
 
-  describe('GET /package/:name/:version', () => {
-    it('should 200 when get by version', done => {
-      request(app)
-      .get('/package/@cnpmtest/testmodule-web-show/0.0.1')
-      .expect(200)
-      .expect(/testmodule-web-show/)
-      .expect(/Maintainers/)
-      .expect(/Dependencies/)
-      .expect(/Downloads/, done);
+  describe.only('GET /package/:name/:version', () => {
+    it('should 200 when get by version', () => {
+      return request(app.callback())
+        .get('/package/urllib/0.0.1')
+        .expect(200)
+        .expect(/urllib/)
+        .expect(/Maintainers/)
+        .expect(/Dependencies/)
+        .expect(/Downloads/);
     });
 
-    it('should 200 when get by tag', done => {
-      request(app)
-      .get('/package/@cnpmtest/testmodule-web-show/latest')
-      .expect(200)
-      .expect(/testmodule-web-show/)
-      .expect(/Maintainers/)
-      .expect(/Dependencies/)
-      .expect(/Downloads/, done);
+    it('should 200 when get by tag', () => {
+      return request(app.callback())
+        .get('/package/@typed/core/latest')
+        .expect(200)
+        .expect(/@typed\/core/)
+        .expect(/Maintainers/)
+        .expect(/Dependencies/)
+        .expect(/Downloads/);
     });
 
     it('should 404 when get by version not exist', done => {
-      request(app)
-      .get('/package/@cnpmtest/testmodule-web-show/1.1.2')
+      request(app.callback())
+      .get('/package/urllib/0.0.2')
       .expect(404, done);
     });
 
     it('should 404 when get by tag', done => {
-      request(app)
-      .get('/package/@cnpmtest/testmodule-web-show/notexisttag')
+      request(app.callback())
+      .get('/package/@typed/core/0.0.0')
       .expect(404, done);
     });
   });

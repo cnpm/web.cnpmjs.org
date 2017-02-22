@@ -22,6 +22,11 @@ module.exports = app => class PackageController extends app.Controller {
     }
 
     const pkg = yield service.package.getModule(name, tag);
+    console.log(pkg);
+    if (!pkg) {
+      ctx.status = 404;
+      return;
+    }
     this.resolvePackage(pkg);
     // if (!pkg || !pkg.package) {
     //   // check if unpublished
