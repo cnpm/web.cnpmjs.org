@@ -8,7 +8,7 @@ const bytes = require('bytes');
 
 
 module.exports = app => class PackageController extends app.Controller {
-  * show() {
+  async show() {
     const { ctx, service } = this;
     const params = ctx.params;
     // normal: {name: $name, version: $version}
@@ -21,7 +21,7 @@ module.exports = app => class PackageController extends app.Controller {
       tag = 'latest';
     }
 
-    const pkg = yield service.package.getModule(name, tag);
+    const pkg = await service.package.getModule(name, tag);
     console.log(pkg);
     if (!pkg) {
       ctx.status = 404;
@@ -30,7 +30,7 @@ module.exports = app => class PackageController extends app.Controller {
     this.resolvePackage(pkg);
     // if (!pkg || !pkg.package) {
     //   // check if unpublished
-    //   const unpublishedInfo = yield* packageService.getUnpublishedModule(name);
+    //   const unpublishedInfo = await* packageService.getUnpublishedModule(name);
     //   debug('show unpublished %j', unpublishedInfo);
     //   if (unpublishedInfo) {
     //     const data = {
@@ -46,18 +46,18 @@ module.exports = app => class PackageController extends app.Controller {
     //         }
     //       }
     //     }
-    //     yield this.render('package_unpublished', {
+    //     await this.render('package_unpublished', {
     //       package: data,
     //       title: 'Package - ' + name,
     //     });
     //     return;
     //   }
     //
-    //   return yield* next;
+    //   return await* next;
     // }
 
 
-    // const r = yield [
+    // const r = await [
     //   utils.getDownloadTotal(name),
     //   packageService.listDependents(name),
     //   packageService.listStarUserNames(name),
@@ -88,13 +88,13 @@ module.exports = app => class PackageController extends app.Controller {
 
     //
     //
-    // yield this.render('package', {
+    // await this.render('package', {
     //   title: 'Package - ' + pkg.name,
     //   package: pkg,
     //   download,
     // });
     pkg.dependents = [];
-    yield ctx.render('package.ejs', {
+    await ctx.render('package.ejs', {
       package: pkg,
       download: {},
     });

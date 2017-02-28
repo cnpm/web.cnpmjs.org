@@ -1,5 +1,8 @@
 {
   "extends": "egg",
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
   "rules": {
     "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ]
   },

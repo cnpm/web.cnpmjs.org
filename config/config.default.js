@@ -12,4 +12,8 @@ module.exports = {
   notfound: {
     pageUrl: '/404',
   },
+
+  view: {
+    defaultViewEngine: 'ejs',
+  },
 };
