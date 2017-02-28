@@ -10,7 +10,6 @@ module.exports = {
   dep: [
   ],
   devdep: [
-    'egg-ci',
     'egg-bin',
     'autod',
     'eslint',
@@ -24,4 +23,3 @@ module.exports = {
   ],
   registry: 'https://r.cnpmjs.org',
 };
-
