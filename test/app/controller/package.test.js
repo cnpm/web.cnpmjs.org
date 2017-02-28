@@ -8,8 +8,9 @@ describe('test/controllers/web/package/show.test.js', () => {
   afterEach(mm.restore);
 
   describe('GET /package/:name', () => {
-    it('should get 200', () => {
-      return request(app.callback())
+
+    it('should get 200', async () => {
+      await request(app.callback())
         .get('/package/urllib')
         .expect(200)
         .expect('content-type', 'text/html; charset=utf-8')
@@ -19,8 +20,8 @@ describe('test/controllers/web/package/show.test.js', () => {
         .expect(/Downloads/);
     });
 
-    it('should get scoped package', () => {
-      return request(app.callback())
+    it('should get scoped package', async () => {
+      await request(app.callback())
         .get('/package/@typed/core')
         .expect(200)
         .expect('content-type', 'text/html; charset=utf-8')
@@ -30,16 +31,17 @@ describe('test/controllers/web/package/show.test.js', () => {
         .expect(/Downloads/);
     });
 
-    it('should get 404', () => {
-      return request(app.callback())
+    it('should get 404', async () => {
+      await request(app.callback())
         .get('/package/noexist')
-        .expect(404);
+        .expect('Location', '/404')
+        .expect(302);
     });
   });
 
-  describe.only('GET /package/:name/:version', () => {
-    it('should 200 when get by version', () => {
-      return request(app.callback())
+  describe('GET /package/:name/:version', () => {
+    it('should 200 when get by version', async () => {
+      await request(app.callback())
         .get('/package/urllib/0.0.1')
         .expect(200)
         .expect(/urllib/)
@@ -48,8 +50,8 @@ describe('test/controllers/web/package/show.test.js', () => {
         .expect(/Downloads/);
     });
 
-    it('should 200 when get by tag', () => {
-      return request(app.callback())
+    it('should 200 when get by tag', async () => {
+      await request(app.callback())
         .get('/package/@typed/core/latest')
         .expect(200)
         .expect(/@typed\/core/)
@@ -58,35 +60,22 @@ describe('test/controllers/web/package/show.test.js', () => {
         .expect(/Downloads/);
     });
 
-    it('should 404 when get by version not exist', done => {
-      request(app.callback())
-      .get('/package/urllib/0.0.2')
-      .expect(404, done);
+    it('should 404 when get by version not exist', async () => {
+      await request(app.callback())
+        .get('/package/urllib/0.0.2')
+        .expect('Location', '/404')
+        .expect(302);
     });
 
-    it('should 404 when get by tag', done => {
-      request(app.callback())
-      .get('/package/@typed/core/0.0.0')
-      .expect(404, done);
+    it('should 404 when get by tag', async () => {
+      await request(app.callback())
+        .get('/package/@typed/core/0.0.0')
+        .expect('Location', '/404')
+        .expect(302);
     });
   });
 
-  // describe.skip('unpublished package', () => {
-  //   before(done => {
-  //     mm(config, 'syncModel', 'all');
-  //     utils.sync('mk2testmodule', done);
-  //   });
-  //
-  //   it('should display unpublished info', () => {
-  //     mm(config, 'syncModel', 'all');
-  //     return request(app)
-  //       .get('/package/mk2testmodule')
-  //       .expect(200)
-  //       .expect(/This package has been unpublished\./);
-  //   });
-  // });
-
-  // describe('xss filter', () => {
+  // describe('xss filter', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/xss-test-ut', '0.0.1', utils.admin,
   //       null, '[xss link](javascript:alert(2)) \n\nfoo<script>alert(1)</script>/xss\'"&#');
@@ -109,13 +98,13 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
 
-  // describe('show npm package', () => {
+  // describe('show npm package', async () => {
   //   before(done => {
   //     mm(config, 'syncModel', 'exists');
   //     utils.sync('pedding', done);
   //   });
   //
-  //   it('should show pedding package info and contributors', () => {
+  //   it('should show pedding package info and contributors', async () => {
   //     mm(config, 'syncModel', 'exists');
   //     return request(app)
   //       .get('/package/pedding')
@@ -128,7 +117,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in git syntax', () => {
+  // describe('show repository url in git syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-git', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {
@@ -160,7 +149,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in ssh syntax', () => {
+  // describe('show repository url in ssh syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-ssh', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {
@@ -192,7 +181,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in raw ssh syntax', () => {
+  // describe('show repository url in raw ssh syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-raw-ssh', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {
@@ -224,7 +213,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in https syntax', () => {
+  // describe('show repository url in https syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-https', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {
@@ -256,7 +245,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in short https syntax', () => {
+  // describe('show repository url in short https syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-short-https', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {
@@ -288,7 +277,7 @@ describe('test/controllers/web/package/show.test.js', () => {
   //   });
   // });
   //
-  // describe('show repository url in short http syntax', () => {
+  // describe('show repository url in short http syntax', async () => {
   //   before(done => {
   //     const pkg = utils.getPackage('@cnpmtest/testmodule-repo-short-http', '0.0.1', utils.admin);
   //     pkg.versions['0.0.1'].repository = {

@@ -4,7 +4,7 @@ module.exports = app => {
   // scope package without version
   app.get(/^\/package\/((?:@[\w\-\.]+\/)?[\w\-\.]+)$/, 'package.show');
   // scope package with version
-  app.get(/\/package\/(@[\w\-\.]+\/[\w\-\.]+)\/([\w\d\.]+)$/, 'package.show');
+  app.get(/^\/package\/((?:@[\w\-\.]+\/)?[\w\-\.]+)\/([\w\d\.]+)$/, 'package.show');
   // app.get('/package/:name', showPackage);
   // app.get('/package/:name/:version', showPackage);
 
